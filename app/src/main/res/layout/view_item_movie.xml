@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/margin_card_medium"
+    android:layout_marginRight="@dimen/margin_card_medium"
+    android:layout_marginTop="@dimen/margin_card_medium"
+    android:background="@color/white"
+    android:elevation="@dimen/margin_medium">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_movie_cover"
+            android:layout_width="170dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/img_movie_cover_placeholder" />
+
+        <TextView
+            android:id="@+id/tv_rating_average"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_favorite_accent_24dp"
+            android:fontFamily="cursive"
+            android:gravity="center"
+            android:text="@string/movie_rating"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/iv_movie_cover"
+            android:layout_alignRight="@id/iv_movie_cover"
+            android:alpha="0.5"
+            android:background="@color/black"
+            android:padding="@dimen/margin_small"
+            android:src="@drawable/ic_crop_free_24dp"
+            android:tint="@color/white" />
+
+        <TextView
+            android:id="@+id/tv_movie_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:layout_toRightOf="@id/iv_movie_cover"
+            android:text="@string/movie_name"
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/text_heading_1x"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_movie_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_movie_name"
+            android:layout_below="@id/tv_movie_name"
+            android:text="@string/movie_type"
+            android:textColor="@color/primary_text"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/lbl_current_popularity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_movie_type"
+            android:layout_below="@id/tv_movie_type"
+            android:layout_marginBottom="@dimen/margin_small_n"
+            android:layout_marginTop="@dimen/margin_card_medium"
+            android:text="@string/current_popularity"
+            android:textColor="@color/primary_text" />
+
+        <include
+            android:id="@+id/vp_popularity_bar"
+            layout="@layout/view_pod_popularity_bar"
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_alignLeft="@id/lbl_current_popularity"
+            android:layout_below="@id/lbl_current_popularity" />
+
+        <TextView
+            android:id="@+id/btn_movie_overview"
+            style="@style/AccentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_alignBottom="@id/iv_movie_cover"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/margin_medium"
+            android:background="@color/primary"
+            android:paddingLeft="@dimen/margin_large"
+            android:paddingRight="@dimen/margin_large"
+            android:text="@string/movie_overview" />
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

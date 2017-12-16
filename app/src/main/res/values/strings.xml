@@ -1,4 +1,38 @@
 <resources>
     <string name="app_name">PADC-Movie-Shelf</string>
     <string name="action_settings">Settings</string>
+
+    <string name="current_popularity">Current Popularity</string>
+    <string name="no_data">No data for now</string>
+    <string name="refresh">Pull to refresh</string>
+    <string name="movie_overview">Movie Overview</string>
+    <string name="released_date">Released : January 2016</string>
+    <string name="movie_rating">7.7</string>
+    <string name="movie_type">(Drama, Horror, Thriller)</string>
+    <string name="movie_name">IT</string>
+    <string name="movie_type_1">Horror</string>
+    <string name="movie_type_2">Drama</string>
+
+    <string name="dummy_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec hendrerit lectus. Donec molestie est a lectus congue, vel suscipit ligula mattis. Ut dictum et nisi nec ultrices. Proin id venenatis sem, vitae efficitur urna. Fusce purus urna, vestibulum in suscipit rhoncus, bibendum in magna. Duis elementum eleifend nulla, ut dignissim magna mollis a. Phasellus ut tempor mi. Sed vitae volutpat nisl. Proin eget augue dolor. Sed volutpat eget velit at tempor. Vivamus et risus purus. Vivamus non ex pellentesque, rutrum quam nec, finibus elit. Vivamus pellentesque dui erat, ac vulputate ligula pretium ac.
+
+Praesent elementum mi id gravida maximus. Aliquam erat volutpat. Nam lobortis sit amet enim in fermentum. Donec eu lacinia nunc, aliquam tincidunt arcu. Nullam non mauris augue. In molestie dui tellus, eu scelerisque neque suscipit sed. Praesent vel sodales risus. In a risus cursus, hendrerit tortor et, hendrerit tortor. Suspendisse sit amet dolor ex. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla lectus nulla, tempus in tempus id, ullamcorper eget sem. Phasellus tristique non sem nec facilisis. Donec tempus urna ac elit mollis, et faucibus ante efficitur. Integer ut volutpat lacus. Nulla eget efficitur mi. Duis efficitur enim at augue placerat venenatis.
+
+Pellentesque ac efficitur magna. Sed pretium massa lorem, id auctor leo interdum ac. Curabitur eget mauris eu sapien condimentum congue vel sit amet sem. Aenean sit amet dolor dui. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec tristique congue sem vel molestie. Nam gravida vel lorem lacinia pharetra. Curabitur arcu diam, faucibus sed vehicula nec, placerat sit amet lectus. Nam dui lorem, tempor quis auctor nec, tempor at sapien. Sed justo orci, eleifend a ipsum sit amet, hendrerit tempus massa.
+
+Nulla nec velit vitae urna pulvinar consequat. Proin tortor lectus, porta euismod dapibus et, porttitor tempor ante. Suspendisse pulvinar diam lacus, eget tristique enim pharetra dictum. Phasellus eget mauris in augue suscipit feugiat. Proin semper, nibh ut scelerisque laoreet, dolor dui bibendum erat, sed ultricies diam turpis eget ex. Curabitur nec mattis arcu. Aenean nunc est, ultricies luctus pharetra tristique, placerat vel sapien.
+
+Pellentesque lectus quam, ornare at porta in, semper bibendum velit. Curabitur consequat, odio in ultrices pharetra, ligula mauris semper erat, sit amet congue diam nisi non felis. Curabitur nec pulvinar neque. Ut tempus, lectus a iaculis pharetra, diam nunc dapibus massa, a pretium eros sapien a neque. Pellentesque luctus volutpat ornare. Maecenas quis ultrices felis. Nulla hendrerit augue ligula, non dapibus augue ornare id. Quisque fermentum dictum nibh ac bibendum. Phasellus ante sem, posuere vel rhoncus vitae, tempor vel quam. Vivamus tristique sagittis tellus quis porttitor. In vestibulum eleifend odio, sed semper arcu semper vel. Aliquam erat volutpat. In ac sollicitudin ipsum.</string>
+
+    <string name="movie_length">2 hr 22 mins</string>
+    <string name="label_reviews"><u>Reviews</u></string>
+    <string name="review_one_user_name">elshaarawy wrote:</string>
+    <string name="review_one_reviews">very good movie 9.5/10</string>
+    <string name="review_two_user_name">John Chard wrote:</string>
+    <string name="review_two_reviews">Some birds aren\'t meant to be caged</string>
+    <string name="delicousdildo_wrote">deliciousdildo wrote:</string>
+    <string name="deliciousdildo">Make way for the best film ever made people. **Make way.**</string>
+    <string name="movie_object">Fear can hold you prisoner. Hope you can set free</string>
+
+    <string name="dummy_movie_overview">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec hendrerit lectus. Donec molestie est a lectus congue, vel suscipit ligula mattis. Ut dictum et nisi nec ultrices. Proin id venenatis sem, vitae efficitur urna. Fusce purus urna, vestibulum in suscipit rhoncus, bibendum in magna. Duis elementum eleifend nulla, ut dignissim magna mollis a. Phasellus ut tempor mi. Sed vitae volutpat nisl. Proin eget augue dolor. Sed volutpat eget velit at tempor. Vivamus et risus purus. Vivamus non ex pellentesque, rutrum quam nec, finibus elit. Vivamus pellentesque dui erat, ac vulputate ligula pretium ac.</string>
+
 </resources>
