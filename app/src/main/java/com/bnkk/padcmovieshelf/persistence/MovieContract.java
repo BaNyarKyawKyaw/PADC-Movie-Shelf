@@ -1,4 +1,4 @@
-package com.bnkk.padcmovieshelf.data.persistence;
+package com.bnkk.padcmovieshelf.persistence;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;

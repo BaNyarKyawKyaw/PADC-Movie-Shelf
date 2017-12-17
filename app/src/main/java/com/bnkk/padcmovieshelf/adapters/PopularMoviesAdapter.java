@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 
 import com.bnkk.padcmovieshelf.R;
 import com.bnkk.padcmovieshelf.data.vos.MovieVO;
+import com.bnkk.padcmovieshelf.delegates.MovieItemDelegate;
 import com.bnkk.padcmovieshelf.viewholders.PopularMoviesViewHolder;
 
 /**
@@ -14,14 +15,17 @@ import com.bnkk.padcmovieshelf.viewholders.PopularMoviesViewHolder;
 
 public class PopularMoviesAdapter extends BaseRecyclerAdapter<PopularMoviesViewHolder, MovieVO> {
 
-    public PopularMoviesAdapter(Context context) {
+    private MovieItemDelegate mMovieItemDelegate;
+
+    public PopularMoviesAdapter(Context context, MovieItemDelegate movieItemDelegate) {
         super(context);
+        mMovieItemDelegate = movieItemDelegate;
     }
 
     @Override
     public PopularMoviesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mLayoutInflater.inflate(R.layout.view_item_movie, parent, false);
-        return new PopularMoviesViewHolder(view);
+        return new PopularMoviesViewHolder(view,mMovieItemDelegate);
     }
 
     @Override

@@ -1,8 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/iv_movie_trailer"
-    android:layout_width="230dp"
-    android:layout_height="200dp"
-    android:layout_margin="@dimen/margin_medium"
-    android:scaleType="centerCrop"
-    android:src="@drawable/img_movie_cover_placeholder_2" />
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_movie_trailer"
+        android:layout_width="230dp"
+        android:layout_height="200dp"
+        android:layout_margin="@dimen/margin_medium"
+        android:alpha="0.5"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_movie_cover_placeholder_2" />
+
+    <ImageView
+        android:id="@+id/iv_play_movie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/play_button_icon" />
+</RelativeLayout>

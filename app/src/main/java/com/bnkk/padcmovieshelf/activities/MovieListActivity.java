@@ -1,5 +1,6 @@
 package com.bnkk.padcmovieshelf.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import com.bnkk.padcmovieshelf.components.SmartRecyclerView;
 import com.bnkk.padcmovieshelf.components.SmartScrollListener;
 import com.bnkk.padcmovieshelf.data.models.MovieModel;
 import com.bnkk.padcmovieshelf.data.vos.MovieVO;
+import com.bnkk.padcmovieshelf.delegates.MovieItemDelegate;
 import com.bnkk.padcmovieshelf.events.RestApiEvents;
 
 import org.greenrobot.eventbus.EventBus;
@@ -30,7 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieListActivity extends BaseActivity {
+public class MovieListActivity extends BaseActivity implements MovieItemDelegate {
 
     @BindView(R.id.toolbar)
     Toolbar toolBar;
@@ -75,7 +77,7 @@ public class MovieListActivity extends BaseActivity {
         srvPopularMovie.setEmptyView(vpEmptyMovies);
         srvPopularMovie.setLayoutManager(new LinearLayoutManager(getApplicationContext(),
                 LinearLayoutManager.VERTICAL, false));
-        mPopularMoviesAdapter = new PopularMoviesAdapter(getApplicationContext());
+        mPopularMoviesAdapter = new PopularMoviesAdapter(getApplicationContext(),this);
         srvPopularMovie.setAdapter(mPopularMoviesAdapter);
 
         SmartScrollListener mSmartScrollListener = new SmartScrollListener(new SmartScrollListener.OnSmartScrollListener() {
@@ -127,5 +129,11 @@ public class MovieListActivity extends BaseActivity {
     public void onErrorInvokingAPI(RestApiEvents.ErrorInvokingAPIEvent event) {
         Snackbar.make(srvPopularMovie, event.getErrorMsg(), Snackbar.LENGTH_INDEFINITE).show();
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onTapMovieOverview() {
+        Intent intent = MovieDetailsActivity.newIntent(getApplicationContext());
+        startActivity(intent);
     }
 }

@@ -10,8 +10,7 @@
     <string name="movie_rating">7.7</string>
     <string name="movie_type">(Drama, Horror, Thriller)</string>
     <string name="movie_name">IT</string>
-    <string name="movie_type_1">Horror</string>
-    <string name="movie_type_2">Drama</string>
+    <string name="movie_genre">Horror</string>
 
     <string name="dummy_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam nec hendrerit lectus. Donec molestie est a lectus congue, vel suscipit ligula mattis. Ut dictum et nisi nec ultrices. Proin id venenatis sem, vitae efficitur urna. Fusce purus urna, vestibulum in suscipit rhoncus, bibendum in magna. Duis elementum eleifend nulla, ut dignissim magna mollis a. Phasellus ut tempor mi. Sed vitae volutpat nisl. Proin eget augue dolor. Sed volutpat eget velit at tempor. Vivamus et risus purus. Vivamus non ex pellentesque, rutrum quam nec, finibus elit. Vivamus pellentesque dui erat, ac vulputate ligula pretium ac.
 
@@ -25,10 +24,8 @@ Pellentesque lectus quam, ornare at porta in, semper bibendum velit. Curabitur c
 
     <string name="movie_length">2 hr 22 mins</string>
     <string name="label_reviews"><u>Reviews</u></string>
-    <string name="review_one_user_name">elshaarawy wrote:</string>
-    <string name="review_one_reviews">very good movie 9.5/10</string>
-    <string name="review_two_user_name">John Chard wrote:</string>
-    <string name="review_two_reviews">Some birds aren\'t meant to be caged</string>
+    <string name="review_user_name">elshaarawy wrote:</string>
+    <string name="review">very good movie 9.5/10</string>
     <string name="delicousdildo_wrote">deliciousdildo wrote:</string>
     <string name="deliciousdildo">Make way for the best film ever made people. **Make way.**</string>
     <string name="movie_object">Fear can hold you prisoner. Hope you can set free</string>

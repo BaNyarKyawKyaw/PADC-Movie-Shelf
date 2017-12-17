@@ -8,29 +8,25 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
             <RelativeLayout
                 android:id="@+id/rl_movie_overview"
                 android:layout_width="match_parent"
                 android:layout_height="245dp"
-                android:background="@drawable/bg_movie_details_app_bar"
-                android:fitsSystemWindows="true">
+                android:background="@drawable/bg_movie_details_app_bar">
 
                 <ImageView
                     android:id="@+id/iv_movie_cover"
                     android:layout_width="170dp"
                     android:layout_height="220dp"
                     android:layout_margin="@dimen/margin_medium_2"
-                    android:fitsSystemWindows="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/img_movie_cover_placeholder" />
 
@@ -40,7 +36,6 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/margin_small"
                     android:background="@drawable/ic_favorite_accent_24dp"
-                    android:fitsSystemWindows="true"
                     android:fontFamily="cursive"
                     android:gravity="center"
                     android:text="@string/movie_rating"
@@ -54,7 +49,6 @@
                     android:layout_marginBottom="@dimen/margin_medium_2"
                     android:alpha="0.5"
                     android:background="@color/black"
-                    android:fitsSystemWindows="true"
                     android:padding="@dimen/margin_small"
                     android:src="@drawable/ic_crop_free_24dp"
                     android:tint="@color/white" />
@@ -107,14 +101,12 @@
                         android:id="@+id/vp_popularity_bar"
                         layout="@layout/view_pod_popularity_bar"
                         android:layout_width="150dp"
-                        android:layout_height="30dp"
-                        android:fitsSystemWindows="true" />
+                        android:layout_height="30dp" />
 
                     <TextView
                         android:id="@+id/tv_released_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fitsSystemWindows="true"
                         android:text="@string/released_date"
                         android:textColor="@color/white" />
                 </LinearLayout>
@@ -147,52 +139,20 @@
                 android:textSize="@dimen/text_heading_1x"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tv_movie_type_1"
+            <com.bnkk.padcmovieshelf.components.SmartRecyclerView
+                android:id="@+id/rv_movie_genre"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tv_movie_name"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:layout_marginLeft="@dimen/margin_medium_2"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:background="@drawable/bg_round_light_blue"
-                android:paddingLeft="@dimen/margin_small"
-                android:paddingRight="@dimen/margin_small"
-                android:text="@string/movie_type_1"
-                android:textColor="@color/primary_text"
-                android:textSize="@dimen/text_regular_2x" />
-
-            <ImageView
-                android:id="@+id/divider_movie_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/tv_movie_type_1"
-                android:layout_alignTop="@id/tv_movie_type_1"
-                android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:layout_toRightOf="@id/tv_movie_type_1"
-                android:src="@drawable/divider_vertical_line" />
-
-            <TextView
-                android:id="@+id/tv_movie_type_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@id/tv_movie_type_1"
-                android:layout_below="@id/tv_movie_name"
-                android:layout_marginBottom="@dimen/margin_medium"
-                android:layout_toRightOf="@id/divider_movie_type"
-                android:background="@drawable/bg_round_light_blue"
-                android:paddingLeft="@dimen/margin_small"
-                android:paddingRight="@dimen/margin_small"
-                android:text="@string/movie_type_2"
-                android:textColor="@color/primary_text"
-                android:textSize="@dimen/text_regular_2x" />
+                android:layout_marginTop="@dimen/margin_medium" />
 
             <TextView
                 android:id="@+id/tv_movie_length"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_movie_type_1"
+                android:layout_below="@id/rv_movie_genre"
                 android:layout_marginLeft="@dimen/margin_medium_2"
                 android:background="@drawable/bg_rounded_border_orange"
                 android:padding="@dimen/margin_medium"
@@ -216,48 +176,19 @@
                 android:textSize="@dimen/text_regular_3x"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tv_review_one_user_name"
+            <com.bnkk.padcmovieshelf.components.SmartRecyclerView
+                android:id="@+id/rv_movie_review"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lbl_reviews"
-                android:layout_marginLeft="@dimen/margin_medium_2"
-                android:text="@string/review_one_user_name"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tv_review_one_review"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_review_one_user_name"
-                android:layout_marginLeft="@dimen/margin_medium_2"
-                android:text="@string/review_one_reviews"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tv_review_two_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_review_one_review"
-                android:layout_marginLeft="@dimen/margin_medium_2"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/review_two_user_name"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tv_review_two_review"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_review_two_user_name"
-                android:layout_marginLeft="@dimen/margin_medium_2"
-                android:text="@string/review_two_reviews"
-                android:textColor="@color/white" />
+                android:layout_marginBottom="@dimen/margin_medium_n"
+                android:layout_marginLeft="@dimen/margin_medium_2" />
 
             <TextView
                 android:id="@+id/tv_movie_information"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_review_two_review"
+                android:layout_below="@id/rv_movie_review"
                 android:layout_margin="@dimen/margin_medium_2"
                 android:lineSpacingMultiplier="1.2"
                 android:text="@string/dummy_paragraph"
