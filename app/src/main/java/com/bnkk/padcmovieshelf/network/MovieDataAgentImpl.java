@@ -1,5 +1,7 @@
 package com.bnkk.padcmovieshelf.network;
 
+import android.content.Context;
+
 import com.bnkk.padcmovieshelf.events.RestApiEvents;
 import com.bnkk.padcmovieshelf.network.responses.GetPopularMoviesResponse;
 
@@ -48,7 +50,7 @@ public class MovieDataAgentImpl implements MovieDataAgent {
     }
 
     @Override
-    public void loadMovies(String accessToken, int page) {
+    public void loadMovies(String accessToken, int page, final Context context) {
         Call<GetPopularMoviesResponse> loadMovieCall = theAPI.loadPopularMovies(accessToken, page);
         loadMovieCall.enqueue(new Callback<GetPopularMoviesResponse>() {
             @Override
@@ -56,7 +58,7 @@ public class MovieDataAgentImpl implements MovieDataAgent {
                 GetPopularMoviesResponse getPopularMoviesResponse = response.body();
                 if (getPopularMoviesResponse != null && getPopularMoviesResponse.getPopularMovies().size() > 0) {
                     RestApiEvents.MovieDataLoadedEvent movieDataLoadedEvent = new RestApiEvents.MovieDataLoadedEvent
-                            (getPopularMoviesResponse.getPage(), getPopularMoviesResponse.getPopularMovies());
+                            (getPopularMoviesResponse.getPage(), getPopularMoviesResponse.getPopularMovies(), context);
                     EventBus.getDefault().post(movieDataLoadedEvent);
                 } else {
                     RestApiEvents.ErrorInvokingAPIEvent errorEvent

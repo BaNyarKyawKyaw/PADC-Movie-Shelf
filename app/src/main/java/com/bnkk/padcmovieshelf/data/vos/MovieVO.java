@@ -1,5 +1,9 @@
 package com.bnkk.padcmovieshelf.data.vos;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+
+import com.bnkk.padcmovieshelf.persistence.MovieContract;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -106,5 +110,47 @@ public class MovieVO {
 
     public String getReleaseDate() {
         return releaseDate;
+    }
+
+    public ContentValues parseToContentValues() {
+
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_COUNT, voteCount);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_MOVIE_ID, movieId);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_IS_VIDEO, isVideo);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE, voteAverage);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_TITLE, title);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_POPULARITY, popularity);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_POSTER_PATH, posterPath);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_LANGUAGE, originalLanguage);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE, originalTitle);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH, backdropPath);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_IS_ADULT, isAdult);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_OVERVIEW, overView);
+        contentValues.put(MovieContract.MovieEntry.COLUMN_RELEASE_DATE, releaseDate);
+
+        return contentValues;
+    }
+
+    public static MovieVO parseFromCursor(Cursor cursor) {
+
+        MovieVO movie = new MovieVO();
+
+        movie.voteCount = cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_COUNT));
+        movie.movieId = cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_ID));
+//        movie.isVideo = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_VIDEO));
+        movie.voteAverage = cursor.getDouble(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE));
+        movie.title = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_ID));
+        movie.popularity = cursor.getDouble(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POPULARITY));
+        movie.posterPath = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POSTER_PATH));
+        movie.originalLanguage = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_ORIGINAL_LANGUAGE));
+        movie.originalTitle = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE));
+        movie.backdropPath = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH));
+//        movie.isAdult = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_ADULT));
+        movie.overView = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_OVERVIEW));
+        movie.releaseDate = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE));
+
+        return movie;
     }
 }

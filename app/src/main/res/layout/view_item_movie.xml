@@ -5,12 +5,12 @@
     android:layout_marginLeft="@dimen/margin_card_medium"
     android:layout_marginRight="@dimen/margin_card_medium"
     android:layout_marginTop="@dimen/margin_card_medium"
-    android:background="@color/white"
     android:elevation="@dimen/margin_medium">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/white">
 
         <ImageView
             android:id="@+id/iv_movie_cover"

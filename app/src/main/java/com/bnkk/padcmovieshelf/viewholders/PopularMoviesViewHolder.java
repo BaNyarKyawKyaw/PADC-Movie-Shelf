@@ -43,14 +43,16 @@ public class PopularMoviesViewHolder extends BaseViewHolder<MovieVO> {
     @Override
     public void setData(MovieVO data) {
 
-        tvMovieName.setText(data.getTitle());
+        if (data != null) {
+            tvMovieName.setText(data.getTitle());
 
-        tvRatingAverage.setText(String.valueOf(data.getVoteAverage()));
+            tvRatingAverage.setText(String.valueOf(data.getVoteAverage()));
 
-        Glide
-                .with(ivMovieCover.getContext())
-                .load(AppConstants.IMAGE_BASE_PATH + "original" + data.getPosterPath())
-                .into(ivMovieCover);
+            Glide
+                    .with(ivMovieCover.getContext())
+                    .load(AppConstants.IMAGE_BASE_PATH + "original" + data.getPosterPath())
+                    .into(ivMovieCover);
+        }
     }
 
     @OnClick(R.id.btn_movie_overview)

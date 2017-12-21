@@ -1,9 +1,12 @@
 package com.bnkk.padcmovieshelf.persistence;
 
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,30 +27,109 @@ public class MoviesProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        return false;
+        mMovieDBHelper = new MovieDBHelper(getContext());
+        return true;
     }
 
     @Nullable
     @Override
-    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection, @Nullable String[] selectionArgs, @Nullable String sortOrder) {
-        return null;
+    public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
+                        @Nullable String[] selectionArgs, @Nullable String sortOrder) {
+
+        Cursor queryCursor = mMovieDBHelper.getReadableDatabase().query(getTableName(uri),
+                projection,
+                selection,
+                selectionArgs,
+                null,
+                null,
+                sortOrder);
+
+        if (getContext() != null) {
+            queryCursor.setNotificationUri(getContext().getContentResolver(), uri);
+        }
+
+        return queryCursor;
     }
 
     @Nullable
     @Override
     public String getType(@NonNull Uri uri) {
+
+        switch (sUriMatcher.match(uri)) {
+            case MOVIES:
+                return MovieContract.MovieEntry.DIR_TYPE;
+            case GENER:
+                return MovieContract.GenreEntry.DIR_TYPE;
+            case MOVIE_GENER:
+                return MovieContract.MovieGenreEntry.DIR_TYPE;
+        }
+
         return null;
     }
 
     @Nullable
     @Override
     public Uri insert(@NonNull Uri uri, @Nullable ContentValues values) {
+
+        SQLiteDatabase db = mMovieDBHelper.getWritableDatabase();
+        String tableName = getTableName(uri);
+        long _id = db.insert(tableName, null, values);
+
+        if (_id > 0) {
+            Uri contentUri = getContentUri(uri);
+            Uri insertedUri = ContentUris.withAppendedId(contentUri, _id);
+
+            if (getContext() != null) {
+                getContext().getContentResolver().notifyChange(uri, null);
+            }
+
+            return insertedUri;
+        }
+
         return null;
     }
 
     @Override
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
+
+        final SQLiteDatabase db = mMovieDBHelper.getWritableDatabase();
+        String tableName = getTableName(uri);
+        int insertedCount = 0;
+
+        try {
+            db.beginTransaction();
+            for (ContentValues cv : values) {
+                long _id = db.insert(tableName, null, cv);
+                if (_id > 0) {
+                    insertedCount++;
+                }
+            }
+            db.setTransactionSuccessful();
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+
+        Context context = getContext();
+        if (context != null) {
+            context.getContentResolver().notifyChange(uri, null);
+        }
+        return insertedCount;
+    }
+
+    @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+
+        SQLiteDatabase db = mMovieDBHelper.getWritableDatabase();
+        int rowDeleted;
+        String tableName = getTableName(uri);
+
+        rowDeleted = db.delete(tableName, selection, selectionArgs);
+
+        if (getContext() != null && rowDeleted > 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+        return rowDeleted;
     }
 
     @Override
@@ -67,6 +149,7 @@ public class MoviesProvider extends ContentProvider {
     }
 
     private String getTableName(Uri uri) {
+
         switch (sUriMatcher.match(uri)) {
             case MOVIES:
                 return MovieContract.MovieEntry.TABLE_NAME;
@@ -74,8 +157,22 @@ public class MoviesProvider extends ContentProvider {
                 return MovieContract.GenreEntry.TABLE_NAME;
             case MOVIE_GENER:
                 return MovieContract.MovieGenreEntry.TABLE_NAME;
-            default:
-                return null;
         }
+
+        return null;
+    }
+
+    private Uri getContentUri(Uri uri) {
+
+        switch (sUriMatcher.match(uri)) {
+            case MOVIES:
+                return MovieContract.MovieEntry.CONTENT_URI;
+            case GENER:
+                return MovieContract.GenreEntry.CONTENT_URI;
+            case MOVIE_GENER:
+                return MovieContract.MovieGenreEntry.CONTENT_URI;
+        }
+
+        return null;
     }
 }

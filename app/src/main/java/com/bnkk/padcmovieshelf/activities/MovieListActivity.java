@@ -1,9 +1,13 @@
 package com.bnkk.padcmovieshelf.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,17 +26,22 @@ import com.bnkk.padcmovieshelf.data.models.MovieModel;
 import com.bnkk.padcmovieshelf.data.vos.MovieVO;
 import com.bnkk.padcmovieshelf.delegates.MovieItemDelegate;
 import com.bnkk.padcmovieshelf.events.RestApiEvents;
+import com.bnkk.padcmovieshelf.persistence.MovieContract;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MovieListActivity extends BaseActivity implements MovieItemDelegate {
+public class MovieListActivity extends BaseActivity
+        implements MovieItemDelegate, LoaderManager.LoaderCallbacks<Cursor> {
+
+    private static final int NEWS_LIST_LOADER_ID = 100;
 
     @BindView(R.id.toolbar)
     Toolbar toolBar;
@@ -77,24 +86,26 @@ public class MovieListActivity extends BaseActivity implements MovieItemDelegate
         srvPopularMovie.setEmptyView(vpEmptyMovies);
         srvPopularMovie.setLayoutManager(new LinearLayoutManager(getApplicationContext(),
                 LinearLayoutManager.VERTICAL, false));
-        mPopularMoviesAdapter = new PopularMoviesAdapter(getApplicationContext(),this);
+        mPopularMoviesAdapter = new PopularMoviesAdapter(getApplicationContext(), this);
         srvPopularMovie.setAdapter(mPopularMoviesAdapter);
 
         SmartScrollListener mSmartScrollListener = new SmartScrollListener(new SmartScrollListener.OnSmartScrollListener() {
             @Override
             public void onListEndReached() {
-                MovieModel.getObjInstance().loadMoreMovies();
+                MovieModel.getObjInstance().loadMoreMovies(getApplicationContext());
             }
         });
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                MovieModel.getObjInstance().forceRefreshNews();
+                MovieModel.getObjInstance().forceRefreshNews(getApplicationContext());
             }
         });
 
         srvPopularMovie.addOnScrollListener(mSmartScrollListener);
+
+        getSupportLoaderManager().initLoader(NEWS_LIST_LOADER_ID, null, this);
     }
 
     @Override
@@ -121,8 +132,10 @@ public class MovieListActivity extends BaseActivity implements MovieItemDelegate
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onNewsDataLoaded(RestApiEvents.MovieDataLoadedEvent event) {
+        /*
         mPopularMoviesAdapter.appendNewData(event.getLoadedMovies());
         swipeRefreshLayout.setRefreshing(false);
+        */
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -135,5 +148,35 @@ public class MovieListActivity extends BaseActivity implements MovieItemDelegate
     public void onTapMovieOverview() {
         Intent intent = MovieDetailsActivity.newIntent(getApplicationContext());
         startActivity(intent);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        return new CursorLoader(getApplicationContext(),
+                MovieContract.MovieEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if (data != null && data.moveToFirst()) {
+            List<MovieVO> movieList = new ArrayList<>();
+
+            do {
+                MovieVO movie = MovieVO.parseFromCursor(data);
+                movieList.add(movie);
+            } while (data.moveToNext());
+
+            mPopularMoviesAdapter.setNewData(movieList);
+            swipeRefreshLayout.setRefreshing(false);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+
     }
 }

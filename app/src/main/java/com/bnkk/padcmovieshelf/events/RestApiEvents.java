@@ -1,5 +1,7 @@
 package com.bnkk.padcmovieshelf.events;
 
+import android.content.Context;
+
 import com.bnkk.padcmovieshelf.data.vos.MovieVO;
 
 import java.util.List;
@@ -33,10 +35,12 @@ public class RestApiEvents {
 
         private int loadedPageIndex;
         private List<MovieVO> loadedMovies;
+        private Context context;
 
-        public MovieDataLoadedEvent(int loadedPageIndex, List<MovieVO> loadedMovies) {
+        public MovieDataLoadedEvent(int loadedPageIndex, List<MovieVO> loadedMovies, Context context) {
             this.loadedPageIndex = loadedPageIndex;
             this.loadedMovies = loadedMovies;
+            this.context = context;
         }
 
         public int getLoadedPageIndex() {
@@ -45,6 +49,10 @@ public class RestApiEvents {
 
         public List<MovieVO> getLoadedMovies() {
             return loadedMovies;
+        }
+
+        public Context getContext() {
+            return context;
         }
     }
 }
