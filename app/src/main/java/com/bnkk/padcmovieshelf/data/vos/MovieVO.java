@@ -1,11 +1,13 @@
 package com.bnkk.padcmovieshelf.data.vos;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 
 import com.bnkk.padcmovieshelf.persistence.MovieContract;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,7 +20,7 @@ public class MovieVO {
     private int voteCount;
 
     @SerializedName("id")
-    private int movieId;
+    private String movieId;
 
     @SerializedName("video")
     private boolean isVideo;
@@ -60,7 +62,7 @@ public class MovieVO {
         return voteCount;
     }
 
-    public int getMovieId() {
+    public String getMovieId() {
         return movieId;
     }
 
@@ -133,13 +135,18 @@ public class MovieVO {
         return contentValues;
     }
 
-    public static MovieVO parseFromCursor(Cursor cursor) {
+    public static MovieVO parseFromCursor(Context context, Cursor cursor) {
 
         MovieVO movie = new MovieVO();
 
         movie.voteCount = cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_COUNT));
-        movie.movieId = cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_ID));
-//        movie.isVideo = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_VIDEO));
+        movie.movieId = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_ID));
+        //movie.isVideo = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_VIDEO) == 1;
+        if (cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_VIDEO) == 1) {
+            movie.isVideo = true;
+        } else if (cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_VIDEO) == 0) {
+            movie.isVideo = false;
+        }
         movie.voteAverage = cursor.getDouble(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE));
         movie.title = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_ID));
         movie.popularity = cursor.getDouble(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POPULARITY));
@@ -147,10 +154,38 @@ public class MovieVO {
         movie.originalLanguage = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_ORIGINAL_LANGUAGE));
         movie.originalTitle = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_ORIGINAL_TITLE));
         movie.backdropPath = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_BACKDROP_PATH));
-//        movie.isAdult = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_ADULT));
+        //movie.isAdult = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_ADULT) == 1;
+        if (cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_ADULT) == 1) {
+            movie.isAdult = true;
+        } else if (cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_ADULT) == 0) {
+            movie.isAdult = false;
+        }
         movie.overView = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_OVERVIEW));
         movie.releaseDate = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_RELEASE_DATE));
 
+        movie.genreIds = loadGenreInMovie(context, movie.getMovieId());
+
         return movie;
+    }
+
+    private static List<Integer> loadGenreInMovie(Context context, String movieId) {
+        Cursor genreInMovieCursor = context.getContentResolver().query(MovieContract.MovieGenreEntry.CONTENT_URI,
+                null,
+                MovieContract.MovieGenreEntry.COLUMN_MOVIE_ID + " = ?", new String[]{movieId},
+                null);
+
+        if (genreInMovieCursor != null && genreInMovieCursor.moveToFirst()) {
+            List<Integer> genreInMovie = new ArrayList<>();
+            do {
+                genreInMovie.add(
+                        genreInMovieCursor.getInt(
+                                genreInMovieCursor.getColumnIndex(MovieContract.MovieGenreEntry.COLUMN_GENRE_ID)
+                        )
+                );
+            } while (genreInMovieCursor.moveToNext());
+            genreInMovieCursor.close();
+            return genreInMovie;
+        }
+        return null;
     }
 }

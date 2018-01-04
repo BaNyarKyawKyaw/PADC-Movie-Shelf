@@ -2,8 +2,6 @@ package com.bnkk.padcmovieshelf.data.models;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.util.ArrayMap;
-import android.util.ArraySet;
 import android.util.Log;
 
 import com.bnkk.padcmovieshelf.MovieApp;
@@ -12,15 +10,14 @@ import com.bnkk.padcmovieshelf.events.RestApiEvents;
 import com.bnkk.padcmovieshelf.network.MovieDataAgentImpl;
 import com.bnkk.padcmovieshelf.persistence.MovieContract;
 import com.bnkk.padcmovieshelf.utils.AppConstants;
+import com.bnkk.padcmovieshelf.utils.ConfigUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by E5-575G on 12/12/2017.
@@ -30,12 +27,12 @@ public class MovieModel {
 
     private static MovieModel objInstance;
 
-    private Map<String, MovieVO> mMoviesSet;
+    private List<MovieVO> mMoviesList;
     private int mMoviePageIndex = 1;
 
     private MovieModel() {
         EventBus.getDefault().register(this);
-        mMoviesSet = new HashMap<>();
+        mMoviesList = new ArrayList<>();
     }
 
     public static MovieModel getObjInstance() {
@@ -46,44 +43,71 @@ public class MovieModel {
     }
 
     public void startLoadingMovies(Context context) {
-        MovieDataAgentImpl.getObjInstance().loadMovies(AppConstants.ACCESS_TOKEN, mMoviePageIndex, context);
+        MovieDataAgentImpl.getObjInstance().loadMovies(AppConstants.ACCESS_TOKEN,
+                //ConfigUtils.getObjInstance().loadPageIndex(),
+                mMoviePageIndex,
+                context);
     }
 
     public List<MovieVO> getMovies() {
-        if (mMoviesSet == null) {
-            return new ArrayList<>();
-        }
-
-        return new ArrayList<>(mMoviesSet.values());
+        return mMoviesList;
     }
 
     public void loadMoreMovies(Context context) {
-        MovieDataAgentImpl.getObjInstance().loadMovies(AppConstants.ACCESS_TOKEN, mMoviePageIndex, context);
+        MovieDataAgentImpl.getObjInstance().loadMovies(AppConstants.ACCESS_TOKEN,
+                //ConfigUtils.getObjInstance().loadPageIndex(),
+                mMoviePageIndex,
+                context);
     }
 
     public void forceRefreshNews(Context context) {
-        mMoviesSet = new HashMap<>();
+        mMoviesList = new ArrayList<>();
+        //ConfigUtils.getObjInstance().savePageIndex(1);
         mMoviePageIndex = 1;
         startLoadingMovies(context);
     }
 
-    @Subscribe
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onMovieDataLoaded(RestApiEvents.MovieDataLoadedEvent event) {
 
+        mMoviesList.addAll(event.getLoadedMovies());
+        //ConfigUtils.getObjInstance().savePageIndex(event.getLoadedPageIndex() + 1);
         mMoviePageIndex = event.getLoadedPageIndex() + 1;
-        // inserting data into mMovieSet
-        for (MovieVO movieVO : event.getLoadedMovies()) {
-            mMoviesSet.put(String.valueOf(movieVO.getMovieId()), movieVO);
-        }
 
+        // Logic for saving data in Persistence Layer
         ContentValues[] movieCVs = new ContentValues[event.getLoadedMovies().size()];
+        List<ContentValues> genreCVList = new ArrayList<>();
+        List<ContentValues> movieGenreCVList = new ArrayList<>();
+
         for (int index = 0; index < movieCVs.length; index++) {
-            movieCVs[index] = event.getLoadedMovies().get(index).parseToContentValues();
+
+            MovieVO movies = event.getLoadedMovies().get(index);
+            movieCVs[index] = movies.parseToContentValues();
+
+            for (int genreId : movies.getGenreIds()) {
+                ContentValues genreIdInMovieCV = new ContentValues();
+                genreIdInMovieCV.put(MovieContract.GenreEntry.COLUMN_GENRE_ID, genreId);
+                genreCVList.add(genreIdInMovieCV);
+            }
+
+            for (int i = 0; i < movies.getGenreIds().size(); i++) {
+                ContentValues movieGenreCV = new ContentValues();
+                movieGenreCV.put(MovieContract.MovieGenreEntry.COLUMN_GENRE_ID, String.valueOf(movies.getGenreIds()));
+                movieGenreCV.put(MovieContract.MovieGenreEntry.COLUMN_MOVIE_ID, movies.getMovieId());
+                movieGenreCVList.add(movieGenreCV);
+            }
         }
 
-        int insertedRows = event.getContext().getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI,
-                movieCVs);
+        int insertedGenre = event.getContext().getContentResolver().bulkInsert(MovieContract.GenreEntry.CONTENT_URI,
+                genreCVList.toArray(new ContentValues[0]));
+        Log.d(MovieApp.LOG_TAG, "insertedGenre" + insertedGenre);
 
-        Log.d(MovieApp.LOG_TAG, "Inserted Rows" + insertedRows);
+        int insertedMovieGenre = event.getContext().getContentResolver().bulkInsert(MovieContract.MovieGenreEntry.CONTENT_URI,
+                movieGenreCVList.toArray(new ContentValues[0]));
+        Log.d(MovieApp.LOG_TAG, "insertedMovieGenre" + insertedMovieGenre);
+
+        int insertedMovies = event.getContext().getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI,
+                movieCVs);
+        Log.d(MovieApp.LOG_TAG, "Inserted News" + insertedMovies);
     }
 }

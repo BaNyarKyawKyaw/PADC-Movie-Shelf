@@ -10,13 +10,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class MovieDBHelper extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "movies.db";
 
     private static final String SQL_CREATE_MOVIE_TABLE = "CREATE TABLE " + MovieContract.MovieEntry.TABLE_NAME + " (" +
             MovieContract.MovieEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             MovieContract.MovieEntry.COLUMN_VOTE_COUNT + " INTEGER, " +
-            MovieContract.MovieEntry.COLUMN_MOVIE_ID + " INTEGER, " +
+            MovieContract.MovieEntry.COLUMN_MOVIE_ID + " TEXT, " +
             MovieContract.MovieEntry.COLUMN_IS_VIDEO + " BOOLEAN, " +
             MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE + " DOUBLE, " +
             MovieContract.MovieEntry.COLUMN_TITLE + " TEXT NOT NULL, " +
@@ -29,23 +29,21 @@ public class MovieDBHelper extends SQLiteOpenHelper {
             MovieContract.MovieEntry.COLUMN_OVERVIEW + " TEXT, " +
             MovieContract.MovieEntry.COLUMN_RELEASE_DATE + " TEXT, " +
 
-            " UNIQUE (" + MovieContract.MovieEntry.COLUMN_MOVIE_ID + ") ON CONFLICT IGNORE, " +
-            " UNIQUE (" + MovieContract.MovieEntry.COLUMN_TITLE + ") ON CONFLICT IGNORE" +
+            " UNIQUE (" + MovieContract.MovieEntry.COLUMN_MOVIE_ID + ") ON CONFLICT REPLACE" +
             " );";
 
     private static final String SQL_CREATE_GENRE_TABLE = "CREATE TABLE " + MovieContract.GenreEntry.TABLE_NAME + " (" +
             MovieContract.GenreEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            MovieContract.GenreEntry.COLUMN_GENRE_ID + " INTEGER, " +
+            MovieContract.GenreEntry.COLUMN_GENRE_ID + " TEXT, " +
             MovieContract.GenreEntry.COLUMN_GENRE_NAME + " TEXT, " +
 
-            " UNIQUE (" + MovieContract.GenreEntry.COLUMN_GENRE_ID + ") ON CONFLICT IGNORE, " +
-            " UNIQUE (" + MovieContract.GenreEntry.COLUMN_GENRE_NAME + ") ON CONFLICT IGNORE" +
+            " UNIQUE (" + MovieContract.GenreEntry.COLUMN_GENRE_ID + ") ON CONFLICT REPLACE" +
             " );";
 
     private static final String SQL_CREATE_MOVIE_GENRE_TABLE = "CREATE TABLE " + MovieContract.MovieGenreEntry.TABLE_NAME + " (" +
             MovieContract.MovieGenreEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            MovieContract.MovieGenreEntry.COLUMN_GENRE_ID + " INTEGER, " +
-            MovieContract.MovieGenreEntry.COLUMN_MOVIE_ID + " INTEGER" +
+            MovieContract.MovieGenreEntry.COLUMN_GENRE_ID + " TEXT, " +
+            MovieContract.MovieGenreEntry.COLUMN_MOVIE_ID + " TEXT" +
 
             " );";
 
@@ -69,6 +67,5 @@ public class MovieDBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + MovieContract.GenreEntry.TABLE_NAME);
 
         onCreate(db);
-
     }
 }

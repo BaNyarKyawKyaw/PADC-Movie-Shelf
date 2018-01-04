@@ -44,14 +44,25 @@ public class PopularMoviesViewHolder extends BaseViewHolder<MovieVO> {
     public void setData(MovieVO data) {
 
         if (data != null) {
-            tvMovieName.setText(data.getTitle());
+
+            if (data.getTitle() != null) {
+                tvMovieName.setVisibility(View.VISIBLE);
+                tvMovieName.setText(data.getTitle());
+            } else {
+                tvMovieName.setVisibility(View.INVISIBLE);
+            }
 
             tvRatingAverage.setText(String.valueOf(data.getVoteAverage()));
 
-            Glide
-                    .with(ivMovieCover.getContext())
-                    .load(AppConstants.IMAGE_BASE_PATH + "original" + data.getPosterPath())
-                    .into(ivMovieCover);
+            if (data.getPosterPath() != null) {
+                ivMovieCover.setVisibility(View.VISIBLE);
+                Glide
+                        .with(ivMovieCover.getContext())
+                        .load(AppConstants.IMAGE_BASE_PATH + "original" + data.getPosterPath())
+                        .into(ivMovieCover);
+            } else {
+                ivMovieCover.setVisibility(View.INVISIBLE);
+            }
         }
     }
 

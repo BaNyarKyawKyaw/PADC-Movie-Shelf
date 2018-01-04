@@ -3,6 +3,7 @@ package com.bnkk.padcmovieshelf;
 import android.app.Application;
 
 import com.bnkk.padcmovieshelf.data.models.MovieModel;
+import com.bnkk.padcmovieshelf.utils.ConfigUtils;
 
 /**
  * Created by E5-575G on 12/12/2017.
@@ -15,6 +16,8 @@ public class MovieApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ConfigUtils.initConfigUtils(getApplicationContext());
+
         MovieModel.getObjInstance().startLoadingMovies(getApplicationContext());
     }
 }

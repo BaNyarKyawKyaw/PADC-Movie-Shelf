@@ -14,6 +14,7 @@ public class SmartScrollListener extends RecyclerView.OnScrollListener {
     }
 
     private boolean isListEndReached = false;
+
     private OnSmartScrollListener mSmartScrollListener;
 
     public SmartScrollListener(OnSmartScrollListener smartScrollListener) {
@@ -37,9 +38,8 @@ public class SmartScrollListener extends RecyclerView.OnScrollListener {
     public void onScrollStateChanged(RecyclerView recyclerView, int scrollState) {
         super.onScrollStateChanged(recyclerView, scrollState);
         if (scrollState == RecyclerView.SCROLL_STATE_IDLE
-                && ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition()
-                == recyclerView.getAdapter().getItemCount() - 1
-                && isListEndReached) {
+                && ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition() == recyclerView.getAdapter().getItemCount() - 1
+                && !isListEndReached) {
             isListEndReached = true;
             mSmartScrollListener.onListEndReached();
         }

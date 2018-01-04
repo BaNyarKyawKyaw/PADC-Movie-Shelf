@@ -52,26 +52,17 @@ public class MovieDataAgentImpl implements MovieDataAgent {
     @Override
     public void loadMovies(String accessToken, int page, final Context context) {
         Call<GetPopularMoviesResponse> loadMovieCall = theAPI.loadPopularMovies(accessToken, page);
-        loadMovieCall.enqueue(new Callback<GetPopularMoviesResponse>() {
+        loadMovieCall.enqueue(new MovieCallBack<GetPopularMoviesResponse>() {
             @Override
             public void onResponse(Call<GetPopularMoviesResponse> call, Response<GetPopularMoviesResponse> response) {
+                super.onResponse(call, response);
                 GetPopularMoviesResponse getPopularMoviesResponse = response.body();
-                if (getPopularMoviesResponse != null && getPopularMoviesResponse.getPopularMovies().size() > 0) {
+                if (getPopularMoviesResponse != null
+                        && getPopularMoviesResponse.getPopularMovies().size() > 0) {
                     RestApiEvents.MovieDataLoadedEvent movieDataLoadedEvent = new RestApiEvents.MovieDataLoadedEvent
                             (getPopularMoviesResponse.getPage(), getPopularMoviesResponse.getPopularMovies(), context);
                     EventBus.getDefault().post(movieDataLoadedEvent);
-                } else {
-                    RestApiEvents.ErrorInvokingAPIEvent errorEvent
-                            = new RestApiEvents.ErrorInvokingAPIEvent("No data could be loaded for now. Pls try again later");
-                    EventBus.getDefault().post(errorEvent);
                 }
-            }
-
-            @Override
-            public void onFailure(Call<GetPopularMoviesResponse> call, Throwable t) {
-                RestApiEvents.ErrorInvokingAPIEvent errorEvent
-                        = new RestApiEvents.ErrorInvokingAPIEvent(t.getMessage());
-                EventBus.getDefault().post(errorEvent);
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.bnkk.padcmovieshelf.network.responses;
 
 import com.bnkk.padcmovieshelf.data.vos.MovieVO;
+import com.bnkk.padcmovieshelf.network.MovieResponse;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by E5-575G on 12/12/2017.
  */
 
-public class GetPopularMoviesResponse {
+public class GetPopularMoviesResponse extends MovieResponse {
 
     @SerializedName("code")
     private int code;

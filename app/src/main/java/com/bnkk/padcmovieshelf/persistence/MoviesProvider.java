@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -22,6 +23,28 @@ public class MoviesProvider extends ContentProvider {
     public static final int MOVIE_GENER = 300;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
+    /*
+    private static final SQLiteQueryBuilder sMovieWithMovieGenre_IJ;
+    private static final SQLiteQueryBuilder sGenreWithMovieGenre_IJ;
+
+    static {
+        sMovieWithMovieGenre_IJ = new SQLiteQueryBuilder();
+        sMovieWithMovieGenre_IJ.setTables(
+                MovieContract.MovieGenreEntry.TABLE_NAME + " INNER JOIN " +
+                        MovieContract.MovieEntry.TABLE_NAME + " ON " +
+                        MovieContract.MovieGenreEntry.TABLE_NAME + "." + MovieContract.MovieGenreEntry.COLUMN_MOVIE_ID + " = " +
+                        MovieContract.MovieEntry.TABLE_NAME + "." + MovieContract.MovieEntry.COLUMN_MOVIE_ID
+        );
+
+        sGenreWithMovieGenre_IJ = new SQLiteQueryBuilder();
+        sGenreWithMovieGenre_IJ.setTables(
+                MovieContract.MovieGenreEntry.TABLE_NAME + " INNER JOIN " +
+                        MovieContract.GenreEntry.TABLE_NAME + " ON " +
+                        MovieContract.MovieGenreEntry.TABLE_NAME + "." + MovieContract.MovieGenreEntry.COLUMN_MOVIE_ID + " = " +
+                        MovieContract.GenreEntry.TABLE_NAME + "." + MovieContract.GenreEntry.COLUMN_GENRE_ID
+        );
+    }
+    */
 
     private MovieDBHelper mMovieDBHelper;
 
@@ -44,6 +67,35 @@ public class MoviesProvider extends ContentProvider {
                 null,
                 sortOrder);
 
+/*
+        Cursor queryCursor;
+        switch (sUriMatcher.match(uri)) {
+            case MOVIES:
+                queryCursor = sMovieWithMovieGenre_IJ.query(mMovieDBHelper.getReadableDatabase(),
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+            case GENER:
+                queryCursor = sGenreWithMovieGenre_IJ.query(mMovieDBHelper.getReadableDatabase(),
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+            default:
+                queryCursor = mMovieDBHelper.getReadableDatabase().query(getTableName(uri),
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder);
+        }
+*/
         if (getContext() != null) {
             queryCursor.setNotificationUri(getContext().getContentResolver(), uri);
         }
@@ -107,7 +159,7 @@ public class MoviesProvider extends ContentProvider {
             db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
-            db.close();
+            //db.close();
         }
 
         Context context = getContext();
@@ -120,7 +172,7 @@ public class MoviesProvider extends ContentProvider {
     @Override
     public int delete(@NonNull Uri uri, @Nullable String selection, @Nullable String[] selectionArgs) {
 
-        SQLiteDatabase db = mMovieDBHelper.getWritableDatabase();
+        final SQLiteDatabase db = mMovieDBHelper.getWritableDatabase();
         int rowDeleted;
         String tableName = getTableName(uri);
 
@@ -133,8 +185,19 @@ public class MoviesProvider extends ContentProvider {
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
-        return 0;
+    public int update(@NonNull Uri uri, @Nullable ContentValues values,
+                      @Nullable String selection, @Nullable String[] selectionArgs) {
+
+        final SQLiteDatabase db = mMovieDBHelper.getWritableDatabase();
+        int rowUpdated;
+        String tableName = getTableName(uri);
+
+        rowUpdated = db.update(tableName, values, selection, selectionArgs);
+        Context context = getContext();
+        if (context != null && rowUpdated > 0) {
+            context.getContentResolver().notifyChange(uri, null);
+        }
+        return rowUpdated;
     }
 
     private static UriMatcher buildUriMatcher() {

@@ -27,9 +27,4 @@ public class PopularMoviesAdapter extends BaseRecyclerAdapter<PopularMoviesViewH
         View view = mLayoutInflater.inflate(R.layout.view_item_movie, parent, false);
         return new PopularMoviesViewHolder(view,mMovieItemDelegate);
     }
-
-    @Override
-    public void onBindViewHolder(PopularMoviesViewHolder holder, int position) {
-        holder.setData(mData.get(position));
-    }
 }
