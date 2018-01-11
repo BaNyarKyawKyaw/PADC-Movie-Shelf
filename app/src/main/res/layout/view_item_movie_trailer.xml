@@ -7,7 +7,7 @@
         android:id="@+id/iv_movie_trailer"
         android:layout_width="230dp"
         android:layout_height="200dp"
-        android:layout_margin="@dimen/margin_medium"
+        android:layout_marginLeft="@dimen/margin_medium"
         android:alpha="0.5"
         android:scaleType="centerCrop"
         android:src="@drawable/img_movie_cover_placeholder_2" />

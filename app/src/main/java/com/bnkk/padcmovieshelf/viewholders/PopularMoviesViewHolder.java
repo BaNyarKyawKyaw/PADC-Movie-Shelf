@@ -36,12 +36,12 @@ public class PopularMoviesViewHolder extends BaseViewHolder<MovieVO> {
 
     public PopularMoviesViewHolder(View itemView, MovieItemDelegate movieItemDelegate) {
         super(itemView);
-        ButterKnife.bind(this, itemView);
         mMovieItemDelegate = movieItemDelegate;
     }
 
     @Override
     public void setData(MovieVO data) {
+        mData = data;
 
         if (data != null) {
 
@@ -66,8 +66,8 @@ public class PopularMoviesViewHolder extends BaseViewHolder<MovieVO> {
         }
     }
 
-    @OnClick(R.id.btn_movie_overview)
-    public void onTapMovieOverview(View view) {
-        mMovieItemDelegate.onTapMovieOverview();
+    @Override
+    public void onClick(View view) {
+        mMovieItemDelegate.onTapMovie(mData);
     }
 }

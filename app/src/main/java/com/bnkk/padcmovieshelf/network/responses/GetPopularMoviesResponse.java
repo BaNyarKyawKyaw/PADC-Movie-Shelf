@@ -4,6 +4,7 @@ import com.bnkk.padcmovieshelf.data.vos.MovieVO;
 import com.bnkk.padcmovieshelf.network.MovieResponse;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -44,6 +45,9 @@ public class GetPopularMoviesResponse extends MovieResponse {
     }
 
     public List<MovieVO> getPopularMovies() {
+        if (popularMovies == null)
+            popularMovies = new ArrayList<>();
+
         return popularMovies;
     }
 }

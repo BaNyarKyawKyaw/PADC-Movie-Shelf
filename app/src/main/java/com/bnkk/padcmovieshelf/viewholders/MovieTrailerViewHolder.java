@@ -16,4 +16,9 @@ public class MovieTrailerViewHolder extends BaseViewHolder {
     public void setData(Object data) {
 
     }
+
+    @Override
+    public void onClick(View view) {
+
+    }
 }

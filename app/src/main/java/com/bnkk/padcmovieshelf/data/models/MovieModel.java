@@ -7,7 +7,7 @@ import android.util.Log;
 import com.bnkk.padcmovieshelf.MovieApp;
 import com.bnkk.padcmovieshelf.data.vos.MovieVO;
 import com.bnkk.padcmovieshelf.events.RestApiEvents;
-import com.bnkk.padcmovieshelf.network.MovieDataAgentImpl;
+import com.bnkk.padcmovieshelf.network.MovieDataAgent;
 import com.bnkk.padcmovieshelf.persistence.MovieContract;
 import com.bnkk.padcmovieshelf.utils.AppConstants;
 import com.bnkk.padcmovieshelf.utils.ConfigUtils;
@@ -19,33 +19,33 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 /**
  * Created by E5-575G on 12/12/2017.
  */
 
 public class MovieModel {
 
-    private static MovieModel objInstance;
-
     private List<MovieVO> mMoviesList;
-    private int mMoviePageIndex = 1;
 
-    private MovieModel() {
+    @Inject
+    MovieDataAgent mDataAgent;
+
+    @Inject
+    ConfigUtils mConfigUtils;
+
+    public MovieModel(Context context) {
         EventBus.getDefault().register(this);
         mMoviesList = new ArrayList<>();
-    }
 
-    public static MovieModel getObjInstance() {
-        if (objInstance == null) {
-            objInstance = new MovieModel();
-        }
-        return objInstance;
+        MovieApp movieApp = (MovieApp) context.getApplicationContext();
+        movieApp.getAppComponent().inject(this);
     }
 
     public void startLoadingMovies(Context context) {
-        MovieDataAgentImpl.getObjInstance().loadMovies(AppConstants.ACCESS_TOKEN,
-                //ConfigUtils.getObjInstance().loadPageIndex(),
-                mMoviePageIndex,
+        mDataAgent.loadMovies(AppConstants.ACCESS_TOKEN,
+                mConfigUtils.loadPageIndex(),
                 context);
     }
 
@@ -54,16 +54,14 @@ public class MovieModel {
     }
 
     public void loadMoreMovies(Context context) {
-        MovieDataAgentImpl.getObjInstance().loadMovies(AppConstants.ACCESS_TOKEN,
-                //ConfigUtils.getObjInstance().loadPageIndex(),
-                mMoviePageIndex,
+        mDataAgent.loadMovies(AppConstants.ACCESS_TOKEN,
+                mConfigUtils.loadPageIndex(),
                 context);
     }
 
     public void forceRefreshNews(Context context) {
         mMoviesList = new ArrayList<>();
-        //ConfigUtils.getObjInstance().savePageIndex(1);
-        mMoviePageIndex = 1;
+        mConfigUtils.savePageIndex(1);
         startLoadingMovies(context);
     }
 
@@ -71,8 +69,7 @@ public class MovieModel {
     public void onMovieDataLoaded(RestApiEvents.MovieDataLoadedEvent event) {
 
         mMoviesList.addAll(event.getLoadedMovies());
-        //ConfigUtils.getObjInstance().savePageIndex(event.getLoadedPageIndex() + 1);
-        mMoviePageIndex = event.getLoadedPageIndex() + 1;
+        mConfigUtils.savePageIndex(event.getLoadedPageIndex() + 1);
 
         // Logic for saving data in Persistence Layer
         ContentValues[] movieCVs = new ContentValues[event.getLoadedMovies().size()];

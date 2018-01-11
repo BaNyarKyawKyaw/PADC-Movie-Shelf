@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -8,7 +9,8 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -16,11 +18,21 @@
             android:layout_height="300dp"
             app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
 
+            <ImageView
+                android:id="@+id/iv_back_drop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:foreground="@color/transparent_black"
+                android:scaleType="centerCrop"
+                android:src="@drawable/movie_backdrop" />
+
             <RelativeLayout
                 android:id="@+id/rl_movie_overview"
                 android:layout_width="match_parent"
                 android:layout_height="245dp"
-                android:background="@drawable/bg_movie_details_app_bar">
+
+                android:fitsSystemWindows="true">
 
                 <ImageView
                     android:id="@+id/iv_movie_cover"
@@ -38,8 +50,8 @@
                     android:background="@drawable/ic_favorite_accent_24dp"
                     android:fontFamily="cursive"
                     android:gravity="center"
-                    android:text="@string/movie_rating"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    tools:text="@string/movie_rating" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -76,6 +88,7 @@
                         android:id="@+id/tv_movie_overview"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:focusable="true"
                         android:lineSpacingMultiplier="1.2"
                         android:text="@string/dummy_movie_overview"
                         android:textColor="@color/white" />
@@ -89,7 +102,7 @@
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="bottom"
                 android:alpha="0.8"
-                android:background="@drawable/bg_movie_details_app_bar"
+
                 app:layout_collapseMode="pin">
 
                 <LinearLayout
@@ -107,8 +120,8 @@
                         android:id="@+id/tv_released_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/released_date"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        tools:text="@string/released_date" />
                 </LinearLayout>
 
             </android.support.v7.widget.Toolbar>
@@ -134,10 +147,10 @@
                 android:background="@color/movie_title_bg"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/margin_medium_2"
-                android:text="@string/movie_name"
                 android:textColor="@color/detail_color"
                 android:textSize="@dimen/text_heading_1x"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                tools:text="@string/movie_name" />
 
             <com.bnkk.padcmovieshelf.components.SmartRecyclerView
                 android:id="@+id/rv_movie_genre"
@@ -163,7 +176,11 @@
                 android:id="@+id/rv_movie_trailer_list"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tv_movie_length" />
+                android:layout_below="@id/tv_movie_length"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:clipToPadding="false"
+                android:paddingLeft="@dimen/margin_medium"
+                android:paddingRight="@dimen/margin_medium_2" />
 
             <TextView
                 android:id="@+id/lbl_reviews"
@@ -181,37 +198,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/lbl_reviews"
-                android:layout_marginBottom="@dimen/margin_medium_n"
+                android:layout_marginBottom="@dimen/margin_medium_2"
                 android:layout_marginLeft="@dimen/margin_medium_2" />
-
-            <TextView
-                android:id="@+id/tv_movie_information"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/rv_movie_review"
-                android:layout_margin="@dimen/margin_medium_2"
-                android:lineSpacingMultiplier="1.2"
-                android:text="@string/dummy_paragraph"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_regular" />
-
-            <TextView
-                android:id="@+id/lbl_deliciousdildo_wrote"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tv_movie_information"
-                android:layout_marginLeft="@dimen/margin_medium_2"
-                android:text="@string/delicousdildo_wrote"
-                android:textColor="@color/white" />
-
-            <TextView
-                android:id="@+id/tv_deliciousdildo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/lbl_deliciousdildo_wrote"
-                android:layout_margin="@dimen/margin_medium_2"
-                android:text="@string/deliciousdildo"
-                android:textColor="@color/white" />
 
         </RelativeLayout>
     </android.support.v4.widget.NestedScrollView>
