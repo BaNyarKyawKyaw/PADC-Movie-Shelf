@@ -27,7 +27,7 @@ import javax.inject.Inject;
 
 public class MovieModel {
 
-    private List<MovieVO> mMoviesList;
+    //private List<MovieVO> mMoviesList;
 
     @Inject
     MovieDataAgent mDataAgent;
@@ -37,7 +37,6 @@ public class MovieModel {
 
     public MovieModel(Context context) {
         EventBus.getDefault().register(this);
-        mMoviesList = new ArrayList<>();
 
         MovieApp movieApp = (MovieApp) context.getApplicationContext();
         movieApp.getAppComponent().inject(this);
@@ -49,10 +48,6 @@ public class MovieModel {
                 context);
     }
 
-    public List<MovieVO> getMovies() {
-        return mMoviesList;
-    }
-
     public void loadMoreMovies(Context context) {
         mDataAgent.loadMovies(AppConstants.ACCESS_TOKEN,
                 mConfigUtils.loadPageIndex(),
@@ -60,15 +55,12 @@ public class MovieModel {
     }
 
     public void forceRefreshNews(Context context) {
-        mMoviesList = new ArrayList<>();
         mConfigUtils.savePageIndex(1);
         startLoadingMovies(context);
     }
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void onMovieDataLoaded(RestApiEvents.MovieDataLoadedEvent event) {
-
-        mMoviesList.addAll(event.getLoadedMovies());
         mConfigUtils.savePageIndex(event.getLoadedPageIndex() + 1);
 
         // Logic for saving data in Persistence Layer

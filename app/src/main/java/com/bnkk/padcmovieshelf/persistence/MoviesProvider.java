@@ -23,19 +23,10 @@ public class MoviesProvider extends ContentProvider {
     public static final int MOVIE_GENER = 300;
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
-    /*
-    private static final SQLiteQueryBuilder sMovieWithMovieGenre_IJ;
+
     private static final SQLiteQueryBuilder sGenreWithMovieGenre_IJ;
 
     static {
-        sMovieWithMovieGenre_IJ = new SQLiteQueryBuilder();
-        sMovieWithMovieGenre_IJ.setTables(
-                MovieContract.MovieGenreEntry.TABLE_NAME + " INNER JOIN " +
-                        MovieContract.MovieEntry.TABLE_NAME + " ON " +
-                        MovieContract.MovieGenreEntry.TABLE_NAME + "." + MovieContract.MovieGenreEntry.COLUMN_MOVIE_ID + " = " +
-                        MovieContract.MovieEntry.TABLE_NAME + "." + MovieContract.MovieEntry.COLUMN_MOVIE_ID
-        );
-
         sGenreWithMovieGenre_IJ = new SQLiteQueryBuilder();
         sGenreWithMovieGenre_IJ.setTables(
                 MovieContract.MovieGenreEntry.TABLE_NAME + " INNER JOIN " +
@@ -44,7 +35,7 @@ public class MoviesProvider extends ContentProvider {
                         MovieContract.GenreEntry.TABLE_NAME + "." + MovieContract.GenreEntry.COLUMN_GENRE_ID
         );
     }
-    */
+
 
     private MovieDBHelper mMovieDBHelper;
 
@@ -59,25 +50,8 @@ public class MoviesProvider extends ContentProvider {
     public Cursor query(@NonNull Uri uri, @Nullable String[] projection, @Nullable String selection,
                         @Nullable String[] selectionArgs, @Nullable String sortOrder) {
 
-        Cursor queryCursor = mMovieDBHelper.getReadableDatabase().query(getTableName(uri),
-                projection,
-                selection,
-                selectionArgs,
-                null,
-                null,
-                sortOrder);
-
-/*
         Cursor queryCursor;
         switch (sUriMatcher.match(uri)) {
-            case MOVIES:
-                queryCursor = sMovieWithMovieGenre_IJ.query(mMovieDBHelper.getReadableDatabase(),
-                        projection,
-                        selection,
-                        selectionArgs,
-                        null,
-                        null,
-                        sortOrder);
             case GENER:
                 queryCursor = sGenreWithMovieGenre_IJ.query(mMovieDBHelper.getReadableDatabase(),
                         projection,
@@ -95,7 +69,7 @@ public class MoviesProvider extends ContentProvider {
                         null,
                         sortOrder);
         }
-*/
+
         if (getContext() != null) {
             queryCursor.setNotificationUri(getContext().getContentResolver(), uri);
         }

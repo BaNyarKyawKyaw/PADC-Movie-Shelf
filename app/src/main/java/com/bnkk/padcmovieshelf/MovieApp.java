@@ -38,8 +38,6 @@ public class MovieApp extends Application {
         mAppComponent = initDagger();
         mAppComponent.inject(this);
 
-        mMovieModel.startLoadingMovies(getApplicationContext());
-
         Log.d(LOG_TAG, "mContext:" + mContext);
     }
 

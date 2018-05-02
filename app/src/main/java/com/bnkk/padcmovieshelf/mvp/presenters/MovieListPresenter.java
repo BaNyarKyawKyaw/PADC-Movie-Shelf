@@ -37,12 +37,7 @@ public class MovieListPresenter extends BasePresenter<MovieListView>
 
     @Override
     public void onStart() {
-        List<MovieVO> newsList = mMovieModel.getMovies();
-        if (!newsList.isEmpty()) {
-            mView.displayMovieList(newsList);
-        } else {
-            mView.showLoading();
-        }
+        mView.showLoading();
     }
 
     @Override
@@ -68,6 +63,8 @@ public class MovieListPresenter extends BasePresenter<MovieListView>
             } while (data.moveToNext());
 
             mView.displayMovieList(movieList);
+        } else {
+            mMovieModel.startLoadingMovies(context);
         }
     }
 

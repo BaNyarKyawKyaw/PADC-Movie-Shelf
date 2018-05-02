@@ -51,16 +51,6 @@ public class MovieContract {
         public static Uri buildMovieUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
-
-        public static Uri buildMovieUriWithTitle(String movieTitle) {
-            return CONTENT_URI.buildUpon()
-                    .appendQueryParameter(COLUMN_TITLE, movieTitle)
-                    .build();
-        }
-
-        public static String getTitleFromParam(Uri uri) {
-            return uri.getQueryParameter(COLUMN_TITLE);
-        }
     }
 
     public static final class GenreEntry implements BaseColumns {
@@ -82,16 +72,6 @@ public class MovieContract {
         public static Uri buildGenreUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
         }
-
-        public static Uri buildGenriUriWithGenreName(String genreName) {
-            return CONTENT_URI.buildUpon()
-                    .appendQueryParameter(COLUMN_GENRE_NAME, genreName)
-                    .build();
-        }
-
-        public static String getGenreNameFromParam(Uri uri) {
-            return uri.getQueryParameter(COLUMN_GENRE_NAME);
-        }
     }
 
     public static final class MovieGenreEntry implements BaseColumns {
@@ -112,26 +92,6 @@ public class MovieContract {
 
         public static Uri buildMovieGenreUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
-        }
-
-        public static Uri buildMovieGenreUriWithMovieId(String movieId) {
-            return CONTENT_URI.buildUpon()
-                    .appendQueryParameter(COLUMN_MOVIE_ID, movieId)
-                    .build();
-        }
-
-        public static String getMovieIdFromParam(Uri uri) {
-            return uri.getQueryParameter(COLUMN_MOVIE_ID);
-        }
-
-        public static Uri buildMovieGenreUriWithGenreId(String genreId) {
-            return CONTENT_URI.buildUpon()
-                    .appendQueryParameter(COLUMN_GENRE_ID, genreId)
-                    .build();
-        }
-
-        public static String getGenreIdFromParam(Uri uri) {
-            return uri.getQueryParameter(COLUMN_GENRE_ID);
         }
     }
 }

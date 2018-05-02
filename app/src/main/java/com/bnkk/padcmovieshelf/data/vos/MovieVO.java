@@ -142,11 +142,8 @@ public class MovieVO {
         movie.voteCount = cursor.getInt(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_COUNT));
         movie.movieId = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_MOVIE_ID));
         //movie.isVideo = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_VIDEO) == 1;
-        if (cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_VIDEO) == 1) {
-            movie.isVideo = true;
-        } else if (cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_VIDEO) == 0) {
-            movie.isVideo = false;
-        }
+        movie.isVideo = cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_IS_VIDEO) == 1;
+
         movie.voteAverage = cursor.getDouble(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_VOTE_AVERAGE));
         movie.title = cursor.getString(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_TITLE));
         movie.popularity = cursor.getDouble(cursor.getColumnIndex(MovieContract.MovieEntry.COLUMN_POPULARITY));
