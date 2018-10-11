@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 
-import com.bnkk.padcmovieshelf.MovieApp;
+import com.bnkk.padcmovieshelf.MovieShelfApp;
 import com.bnkk.padcmovieshelf.data.vos.MovieVO;
 import com.bnkk.padcmovieshelf.events.RestApiEvents;
 import com.bnkk.padcmovieshelf.network.MovieDataAgent;
@@ -38,8 +38,8 @@ public class MovieModel {
     public MovieModel(Context context) {
         EventBus.getDefault().register(this);
 
-        MovieApp movieApp = (MovieApp) context.getApplicationContext();
-        movieApp.getAppComponent().inject(this);
+        MovieShelfApp movieShelfApp = (MovieShelfApp) context.getApplicationContext();
+        movieShelfApp.getAppComponent().inject(this);
     }
 
     public void startLoadingMovies(Context context) {
@@ -89,14 +89,14 @@ public class MovieModel {
 
         int insertedGenre = event.getContext().getContentResolver().bulkInsert(MovieContract.GenreEntry.CONTENT_URI,
                 genreCVList.toArray(new ContentValues[0]));
-        Log.d(MovieApp.LOG_TAG, "insertedGenre" + insertedGenre);
+        Log.d(MovieShelfApp.LOG_TAG, "insertedGenre" + insertedGenre);
 
         int insertedMovieGenre = event.getContext().getContentResolver().bulkInsert(MovieContract.MovieGenreEntry.CONTENT_URI,
                 movieGenreCVList.toArray(new ContentValues[0]));
-        Log.d(MovieApp.LOG_TAG, "insertedMovieGenre" + insertedMovieGenre);
+        Log.d(MovieShelfApp.LOG_TAG, "insertedMovieGenre" + insertedMovieGenre);
 
         int insertedMovies = event.getContext().getContentResolver().bulkInsert(MovieContract.MovieEntry.CONTENT_URI,
                 movieCVs);
-        Log.d(MovieApp.LOG_TAG, "Inserted News" + insertedMovies);
+        Log.d(MovieShelfApp.LOG_TAG, "Inserted News" + insertedMovies);
     }
 }

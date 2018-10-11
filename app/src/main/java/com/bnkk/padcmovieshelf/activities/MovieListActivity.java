@@ -15,7 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.bnkk.padcmovieshelf.MovieApp;
+import com.bnkk.padcmovieshelf.MovieShelfApp;
 import com.bnkk.padcmovieshelf.R;
 import com.bnkk.padcmovieshelf.adapters.PopularMoviesAdapter;
 import com.bnkk.padcmovieshelf.components.EmptyViewPod;
@@ -70,8 +70,8 @@ public class MovieListActivity extends BaseActivity
         setContentView(R.layout.activity_movie_list);
         ButterKnife.bind(this, this);
 
-        MovieApp movieApp = (MovieApp) getApplicationContext();
-        movieApp.getAppComponent().inject(this);
+        MovieShelfApp movieShelfApp = (MovieShelfApp) getApplicationContext();
+        movieShelfApp.getAppComponent().inject(this);
 
         mPresenter.onCreate(this);
 

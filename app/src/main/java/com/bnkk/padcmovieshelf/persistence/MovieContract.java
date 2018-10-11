@@ -5,7 +5,7 @@ import android.content.ContentUris;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.bnkk.padcmovieshelf.MovieApp;
+import com.bnkk.padcmovieshelf.MovieShelfApp;
 
 /**
  * Created by E5-575G on 12/12/2017.
@@ -13,7 +13,7 @@ import com.bnkk.padcmovieshelf.MovieApp;
 
 public class MovieContract {
 
-    public static final String CONTENT_AUTHORITY = MovieApp.class.getPackage().getName();
+    public static final String CONTENT_AUTHORITY = MovieShelfApp.class.getPackage().getName();
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 

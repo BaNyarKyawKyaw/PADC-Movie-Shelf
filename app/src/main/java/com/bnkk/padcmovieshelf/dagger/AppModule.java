@@ -2,7 +2,7 @@ package com.bnkk.padcmovieshelf.dagger;
 
 import android.content.Context;
 
-import com.bnkk.padcmovieshelf.MovieApp;
+import com.bnkk.padcmovieshelf.MovieShelfApp;
 import com.bnkk.padcmovieshelf.data.models.MovieModel;
 import com.bnkk.padcmovieshelf.mvp.presenters.MovieListPresenter;
 
@@ -18,9 +18,9 @@ import dagger.Provides;
 @Module
 public class AppModule {
 
-    private MovieApp mApp;
+    private MovieShelfApp mApp;
 
-    public AppModule(MovieApp application) {
+    public AppModule(MovieShelfApp application) {
         mApp = application;
     }
 

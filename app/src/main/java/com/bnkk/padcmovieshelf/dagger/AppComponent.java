@@ -1,6 +1,6 @@
 package com.bnkk.padcmovieshelf.dagger;
 
-import com.bnkk.padcmovieshelf.MovieApp;
+import com.bnkk.padcmovieshelf.MovieShelfApp;
 import com.bnkk.padcmovieshelf.activities.MovieListActivity;
 import com.bnkk.padcmovieshelf.data.models.MovieModel;
 import com.bnkk.padcmovieshelf.mvp.presenters.MovieListPresenter;
@@ -17,7 +17,7 @@ import dagger.Component;
 @Singleton
 public interface AppComponent {
 
-    void inject(MovieApp movieApp);
+    void inject(MovieShelfApp movieShelfApp);
 
     void inject(MovieModel movieModel);
 
