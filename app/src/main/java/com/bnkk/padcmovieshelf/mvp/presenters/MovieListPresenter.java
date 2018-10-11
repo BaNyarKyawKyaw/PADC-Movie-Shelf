@@ -3,7 +3,7 @@ package com.bnkk.padcmovieshelf.mvp.presenters;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.bnkk.padcmovieshelf.MovieApp;
+import com.bnkk.padcmovieshelf.MovieShelfApp;
 import com.bnkk.padcmovieshelf.data.models.MovieModel;
 import com.bnkk.padcmovieshelf.data.vos.MovieVO;
 import com.bnkk.padcmovieshelf.delegates.MovieItemDelegate;
@@ -18,8 +18,7 @@ import javax.inject.Inject;
  * Created by E5-575G on 1/9/2018.
  */
 
-public class MovieListPresenter extends BasePresenter<MovieListView>
-        implements MovieItemDelegate {
+public class MovieListPresenter extends BasePresenter<MovieListView> implements MovieItemDelegate {
 
     @Inject
     MovieModel mMovieModel;
@@ -31,8 +30,8 @@ public class MovieListPresenter extends BasePresenter<MovieListView>
     @Override
     public void onCreate(MovieListView view) {
         super.onCreate(view);
-        MovieApp movieApp = (MovieApp) mView.getContext();
-        movieApp.getAppComponent().inject(this);
+        MovieShelfApp movieShelfApp = (MovieShelfApp) mView.getContext();
+        movieShelfApp.getAppComponent().inject(this);
     }
 
     @Override

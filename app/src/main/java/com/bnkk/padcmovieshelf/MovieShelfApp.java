@@ -19,9 +19,9 @@ import javax.inject.Inject;
  * Created by E5-575G on 12/12/2017.
  */
 
-public class MovieApp extends Application {
+public class MovieShelfApp extends Application {
 
-    public static final String LOG_TAG = "MovieApp";
+    public static final String LOG_TAG = "MovieShelfApp";
 
     private AppComponent mAppComponent;
 
